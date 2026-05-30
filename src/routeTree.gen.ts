@@ -9,38 +9,237 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppViralScoreRouteImport } from './routes/_app/viral-score'
+import { Route as AppTrendsRouteImport } from './routes/_app/trends'
+import { Route as AppSettingsRouteImport } from './routes/_app/settings'
+import { Route as AppScriptGeneratorRouteImport } from './routes/_app/script-generator'
+import { Route as AppRecommendationsRouteImport } from './routes/_app/recommendations'
+import { Route as AppLibraryRouteImport } from './routes/_app/library'
+import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppCompetitorsRouteImport } from './routes/_app/competitors'
+import { Route as AppCalendarRouteImport } from './routes/_app/calendar'
+import { Route as AppAnalyticsRouteImport } from './routes/_app/analytics'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppViralScoreRoute = AppViralScoreRouteImport.update({
+  id: '/viral-score',
+  path: '/viral-score',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTrendsRoute = AppTrendsRouteImport.update({
+  id: '/trends',
+  path: '/trends',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppScriptGeneratorRoute = AppScriptGeneratorRouteImport.update({
+  id: '/script-generator',
+  path: '/script-generator',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRecommendationsRoute = AppRecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLibraryRoute = AppLibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompetitorsRoute = AppCompetitorsRouteImport.update({
+  id: '/competitors',
+  path: '/competitors',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCalendarRoute = AppCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/analytics': typeof AppAnalyticsRoute
+  '/calendar': typeof AppCalendarRoute
+  '/competitors': typeof AppCompetitorsRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/library': typeof AppLibraryRoute
+  '/recommendations': typeof AppRecommendationsRoute
+  '/script-generator': typeof AppScriptGeneratorRoute
+  '/settings': typeof AppSettingsRoute
+  '/trends': typeof AppTrendsRoute
+  '/viral-score': typeof AppViralScoreRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/analytics': typeof AppAnalyticsRoute
+  '/calendar': typeof AppCalendarRoute
+  '/competitors': typeof AppCompetitorsRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/library': typeof AppLibraryRoute
+  '/recommendations': typeof AppRecommendationsRoute
+  '/script-generator': typeof AppScriptGeneratorRoute
+  '/settings': typeof AppSettingsRoute
+  '/trends': typeof AppTrendsRoute
+  '/viral-score': typeof AppViralScoreRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/_app/analytics': typeof AppAnalyticsRoute
+  '/_app/calendar': typeof AppCalendarRoute
+  '/_app/competitors': typeof AppCompetitorsRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/library': typeof AppLibraryRoute
+  '/_app/recommendations': typeof AppRecommendationsRoute
+  '/_app/script-generator': typeof AppScriptGeneratorRoute
+  '/_app/settings': typeof AppSettingsRoute
+  '/_app/trends': typeof AppTrendsRoute
+  '/_app/viral-score': typeof AppViralScoreRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/signup'
+    | '/analytics'
+    | '/calendar'
+    | '/competitors'
+    | '/dashboard'
+    | '/library'
+    | '/recommendations'
+    | '/script-generator'
+    | '/settings'
+    | '/trends'
+    | '/viral-score'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/signup'
+    | '/analytics'
+    | '/calendar'
+    | '/competitors'
+    | '/dashboard'
+    | '/library'
+    | '/recommendations'
+    | '/script-generator'
+    | '/settings'
+    | '/trends'
+    | '/viral-score'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/forgot-password'
+    | '/login'
+    | '/signup'
+    | '/_app/analytics'
+    | '/_app/calendar'
+    | '/_app/competitors'
+    | '/_app/dashboard'
+    | '/_app/library'
+    | '/_app/recommendations'
+    | '/_app/script-generator'
+    | '/_app/settings'
+    | '/_app/trends'
+    | '/_app/viral-score'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +247,114 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/viral-score': {
+      id: '/_app/viral-score'
+      path: '/viral-score'
+      fullPath: '/viral-score'
+      preLoaderRoute: typeof AppViralScoreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/trends': {
+      id: '/_app/trends'
+      path: '/trends'
+      fullPath: '/trends'
+      preLoaderRoute: typeof AppTrendsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/script-generator': {
+      id: '/_app/script-generator'
+      path: '/script-generator'
+      fullPath: '/script-generator'
+      preLoaderRoute: typeof AppScriptGeneratorRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/recommendations': {
+      id: '/_app/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof AppRecommendationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/library': {
+      id: '/_app/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof AppLibraryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/competitors': {
+      id: '/_app/competitors'
+      path: '/competitors'
+      fullPath: '/competitors'
+      preLoaderRoute: typeof AppCompetitorsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/calendar': {
+      id: '/_app/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof AppCalendarRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/analytics': {
+      id: '/_app/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppCalendarRoute: typeof AppCalendarRoute
+  AppCompetitorsRoute: typeof AppCompetitorsRoute
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppLibraryRoute: typeof AppLibraryRoute
+  AppRecommendationsRoute: typeof AppRecommendationsRoute
+  AppScriptGeneratorRoute: typeof AppScriptGeneratorRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppTrendsRoute: typeof AppTrendsRoute
+  AppViralScoreRoute: typeof AppViralScoreRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAnalyticsRoute: AppAnalyticsRoute,
+  AppCalendarRoute: AppCalendarRoute,
+  AppCompetitorsRoute: AppCompetitorsRoute,
+  AppDashboardRoute: AppDashboardRoute,
+  AppLibraryRoute: AppLibraryRoute,
+  AppRecommendationsRoute: AppRecommendationsRoute,
+  AppScriptGeneratorRoute: AppScriptGeneratorRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppTrendsRoute: AppTrendsRoute,
+  AppViralScoreRoute: AppViralScoreRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
