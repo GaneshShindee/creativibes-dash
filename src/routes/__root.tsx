@@ -77,14 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Creator Pulse" },
+      { name: "description", content: "CreatorPulse AI is a SaaS platform for content creators to discover trends, analyze competitors, and generate personalized content ideas." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Creator Pulse" },
+      { property: "og:description", content: "CreatorPulse AI is a SaaS platform for content creators to discover trends, analyze competitors, and generate personalized content ideas." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Creator Pulse" },
+      { name: "twitter:description", content: "CreatorPulse AI is a SaaS platform for content creators to discover trends, analyze competitors, and generate personalized content ideas." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b85ddb9f-f2b7-4c5a-bc2e-02ed5b34a625/id-preview-65b37d91--b4659c0c-f71f-4465-8ccd-8940fa43435a.lovable.app-1780164114458.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b85ddb9f-f2b7-4c5a-bc2e-02ed5b34a625/id-preview-65b37d91--b4659c0c-f71f-4465-8ccd-8940fa43435a.lovable.app-1780164114458.png" },
     ],
     links: [
       {
