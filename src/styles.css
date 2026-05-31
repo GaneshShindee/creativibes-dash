@@ -162,3 +162,84 @@
   50% { transform: translateY(-6px); }
 }
 .animate-float { animation: float 6s ease-in-out infinite; }
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes float-y-sm {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(6px, -4px); }
+}
+@keyframes ambient-shift {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: .55; }
+  50% { transform: translate3d(20px,-30px,0) scale(1.06); opacity: .75; }
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes sheen {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+@keyframes draw-line {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+
+.animate-float-1 { animation: float-y 7s ease-in-out infinite; }
+.animate-float-2 { animation: float-y-sm 9s ease-in-out infinite; animation-delay: -2s; }
+.animate-float-3 { animation: drift 11s ease-in-out infinite; animation-delay: -4s; }
+.animate-ambient { animation: ambient-shift 18s ease-in-out infinite; }
+.animate-blink { animation: blink 1.1s steps(1) infinite; }
+
+.hover-lift {
+  transition: transform .35s cubic-bezier(.2,.7,.2,1),
+              box-shadow .35s cubic-bezier(.2,.7,.2,1),
+              border-color .35s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  border-color: oklch(1 0 0 / 16%);
+  box-shadow:
+    0 1px 0 0 oklch(1 0 0 / 6%) inset,
+    0 12px 40px -12px oklch(0.62 0.17 275 / 0.35),
+    0 20px 60px -20px oklch(0 0 0 / 0.7);
+}
+
+.btn-lift {
+  transition: transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease, opacity .2s ease;
+}
+.btn-lift:hover { transform: translateY(-1px); }
+.btn-lift:active { transform: translateY(0); transition-duration: .08s; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+.sheen { position: relative; overflow: hidden; }
+.sheen::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(115deg, transparent 30%, oklch(1 0 0 / .06) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: sheen 7s ease-in-out infinite;
+  animation-delay: 2s;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-1, .animate-float-2, .animate-float-3,
+  .animate-ambient, .animate-blink, .animate-pulse-soft,
+  .animate-float, .sheen::after { animation: none !important; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
