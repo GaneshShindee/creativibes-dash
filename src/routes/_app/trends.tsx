@@ -9,7 +9,6 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { useLiveTrends, useNowTick, relativeTime } from "@/lib/use-live-data";
-import { useState as useReactState } from "react";
 
 export const Route = createFileRoute("/_app/trends")({
   head: () => ({ meta: [{ title: "Trends — CreatorPulse" }] }),
@@ -19,7 +18,7 @@ export const Route = createFileRoute("/_app/trends")({
 function Trends() {
   useNowTick(1000);
   const trends = useLiveTrends(3500);
-  const [lastScan] = useReactState(() => Date.now());
+  const [lastScan] = useState(() => Date.now());
   const [platform, setPlatform] = useState<string>("all");
   const [region, setRegion] = useState<string>("all");
   const [q, setQ] = useState("");
