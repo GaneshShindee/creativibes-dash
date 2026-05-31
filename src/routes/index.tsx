@@ -66,37 +66,56 @@ function Landing() {
 
       {/* Hero */}
       <section className="relative pt-32 pb-24 overflow-hidden">
+        <AmbientBackdrop />
         <div className="absolute inset-0 grid-bg pointer-events-none" />
+
+        {/* Floating UI cards — hidden on small screens to preserve layout */}
+        <FloatingHeroCards />
+
         <div className="max-w-5xl mx-auto px-5 text-center relative">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-white/5 px-3 py-1 text-xs text-muted-foreground">
-            <Sparkles className="size-3 text-primary" /> New · Pulse AI 2.0 — now with audio trend detection
-          </div>
-          <h1 className="mt-6 text-5xl sm:text-7xl font-semibold tracking-tight leading-[1.05]">
-            Never run out of <span className="gradient-text">viral content</span> ideas again.
-          </h1>
-          <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
-            CreatorPulse is the AI growth copilot for creators. Discover trends, analyze competitors,
-            predict virality, and ship ready-to-post scripts — every morning.
-          </p>
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <Link to="/signup"><Button size="lg" className="bg-[var(--gradient-primary)] hover:opacity-90 ring-glow">
-              Start free <ArrowRight className="size-4" />
-            </Button></Link>
-            <Link to="/dashboard"><Button size="lg" variant="ghost" className="border border-border/60">
-              See live dashboard
-            </Button></Link>
-          </div>
-          <div className="mt-6 text-xs text-muted-foreground">No credit card · 14-day Pro trial</div>
+          <Reveal>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-white/5 px-3 py-1 text-xs text-muted-foreground">
+              <span className="relative flex size-1.5">
+                <span className="absolute inset-0 rounded-full bg-primary animate-ping opacity-75" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
+              </span>
+              New · Pulse AI 2.0 — now with audio trend detection
+            </div>
+          </Reveal>
+          <Reveal delay={80}>
+            <h1 className="mt-6 text-5xl sm:text-7xl font-semibold tracking-tight leading-[1.05]">
+              Never run out of <span className="gradient-text">viral content</span> ideas again.
+            </h1>
+          </Reveal>
+          <Reveal delay={180}>
+            <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
+              CreatorPulse is the AI growth copilot for creators. Discover trends, analyze competitors,
+              predict virality, and ship ready-to-post scripts — every morning.
+            </p>
+          </Reveal>
+          <Reveal delay={260}>
+            <div className="mt-8 flex items-center justify-center gap-3">
+              <Link to="/signup"><Button size="lg" className="bg-[var(--gradient-primary)] hover:opacity-90 ring-glow btn-lift">
+                Start free <ArrowRight className="size-4" />
+              </Button></Link>
+              <Link to="/dashboard"><Button size="lg" variant="ghost" className="border border-border/60 btn-lift">
+                See live dashboard
+              </Button></Link>
+            </div>
+            <div className="mt-6 text-xs text-muted-foreground">No credit card · 14-day Pro trial</div>
+          </Reveal>
         </div>
 
         {/* Dashboard preview */}
-        <div className="mt-16 max-w-6xl mx-auto px-5 relative">
-          <div className="rounded-2xl glass-strong p-2 ring-glow">
-            <div className="rounded-xl overflow-hidden bg-background/80 border border-border/60">
-              <DashboardPreview />
+        <Reveal delay={340}>
+          <div className="mt-16 max-w-6xl mx-auto px-5 relative">
+            <div className="rounded-2xl glass-strong p-2 ring-glow sheen">
+              <div className="rounded-xl overflow-hidden bg-background/80 border border-border/60">
+                <DashboardPreview />
+              </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Trusted by */}
