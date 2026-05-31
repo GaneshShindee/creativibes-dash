@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { trends } from "@/lib/mock-data";
+import { useLiveTrends, useNowTick, relativeTime } from "@/lib/use-live-data";
 
 export const Route = createFileRoute("/_app/trends")({
   head: () => ({ meta: [{ title: "Trends — CreatorPulse" }] }),
@@ -16,6 +16,9 @@ export const Route = createFileRoute("/_app/trends")({
 });
 
 function Trends() {
+  useNowTick(1000);
+  const trends = useLiveTrends(3500);
+  const [lastScan] = useState(() => Date.now());
   const [platform, setPlatform] = useState<string>("all");
   const [region, setRegion] = useState<string>("all");
   const [q, setQ] = useState("");
@@ -26,14 +29,22 @@ function Trends() {
       (region === "all" || t.region === region) &&
       (q === "" || t.name.toLowerCase().includes(q.toLowerCase()))
     )
-  , [platform, region, q]);
+  , [trends, platform, region, q]);
 
   return (
     <div className="space-y-6">
       <PageHeader
         title="Trend discovery"
         description="Cross-platform trend signals, scored against your niche in real time."
-        actions={<Button className="bg-[var(--gradient-primary)]"><TrendingUp className="size-4" /> Refresh</Button>}
+        actions={
+          <>
+            <div className="text-[11px] text-muted-foreground hidden sm:flex items-center gap-1.5 mr-2">
+              <span className="relative flex size-1.5"><span className="absolute inset-0 rounded-full bg-primary animate-ping opacity-75" /><span className="relative inline-flex size-1.5 rounded-full bg-primary" /></span>
+              Live · scanned {relativeTime(lastScan)}
+            </div>
+            <Button className="bg-[var(--gradient-primary)]"><TrendingUp className="size-4" /> Refresh</Button>
+          </>
+        }
       />
 
       <div className="glass rounded-2xl p-3 flex flex-col md:flex-row md:items-center gap-2">
