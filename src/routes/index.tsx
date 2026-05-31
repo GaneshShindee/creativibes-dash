@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles, TrendingUp, Zap, ShieldCheck, Star, Check } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, Sparkles, TrendingUp, Zap, ShieldCheck, Star, Check, Activity, Eye, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import { pricingPlans, testimonials, faqs } from "@/lib/mock-data";
+import { Reveal, CountUp, AmbientBackdrop, useTick } from "@/components/landing/motion";
 
 export const Route = createFileRoute("/")({
   head: () => ({
