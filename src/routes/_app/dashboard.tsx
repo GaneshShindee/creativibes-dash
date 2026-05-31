@@ -8,7 +8,10 @@ import { PageHeader } from "@/components/app/PageHeader";
 import { StatCard } from "@/components/app/StatCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { metrics, growthSeries, platformShare, trends, recommendations, calendarItems, notifications } from "@/lib/mock-data";
+import { growthSeries, platformShare, recommendations, calendarItems } from "@/lib/mock-data";
+import { useLiveMetrics, useLiveTrends } from "@/lib/use-live-data";
+import { DailyBriefing } from "@/components/app/DailyBriefing";
+import { LiveActivityFeed } from "@/components/app/LiveActivityFeed";
 
 export const Route = createFileRoute("/_app/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — CreatorPulse" }] }),
