@@ -312,33 +312,99 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   );
 }
 
+/* ---------- Live previews (subtle continuous motion) ---------- */
+
+function useDrift(seed: number, amp = 0.4, ms = 2200) {
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    let alive = true;
+    const tick = () => {
+      if (!alive) return;
+      setV((Math.sin(Date.now() / 900 + seed) + Math.random() * 0.3) * amp);
+    };
+    tick();
+    const id = window.setInterval(tick, ms);
+    return () => { alive = false; window.clearInterval(id); };
+  }, [seed, amp, ms]);
+  return v;
+}
+
 function DashboardPreview() {
+  useTick(2400);
+  const dViews = useDrift(1, 0.05);
+  const dFoll = useDrift(2, 0.04);
+  const dEng = useDrift(3, 0.03);
+  const dTr = useDrift(4, 0.06);
+
+  const views = 1.28 + dViews;
+  const followers = 84.2 + dFoll * 10;
+  const engagement = 7.4 + dEng;
+  const trending = Math.max(80, Math.min(99, Math.round(92 + dTr * 10)));
+
+  const stats = [
+    { l: "Views", v: `${views.toFixed(2)}M`, d: `+${(12.8 + dViews * 4).toFixed(1)}%` },
+    { l: "Followers", v: `${followers.toFixed(1)}k`, d: `+${(4.1 + dFoll * 2).toFixed(1)}%` },
+    { l: "Engagement", v: `${engagement.toFixed(1)}%`, d: `+${(0.6 + dEng * 0.4).toFixed(2)}` },
+    { l: "Trending", v: `${trending}`, d: `+${Math.round(8 + dTr * 4)}` },
+  ];
+
+  // Animated chart bars
+  const [bars, setBars] = useState<number[]>([20,35,28,42,55,48,62,70,58,75,82,88,72,90]);
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setBars((prev) => {
+        const next = prev.slice(1);
+        const last = prev[prev.length - 1];
+        const drift = (Math.random() - 0.4) * 18;
+        next.push(Math.max(15, Math.min(98, last + drift)));
+        return next;
+      });
+    }, 1800);
+    return () => window.clearInterval(id);
+  }, []);
+
   return (
-    <div className="p-5 grid grid-cols-12 gap-3 text-xs">
+    <div className="p-5 grid grid-cols-12 gap-3 text-xs relative">
+      {/* live indicator */}
+      <div className="absolute top-3 right-4 flex items-center gap-1.5 text-[10px] text-primary">
+        <span className="relative flex size-1.5">
+          <span className="absolute inset-0 rounded-full bg-primary animate-ping opacity-75" />
+          <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
+        </span>
+        LIVE
+      </div>
+
       <div className="col-span-3 space-y-2">
         {["Today's trends", "Viral score", "Recommendations", "Competitors"].map((s, i) => (
-          <div key={s} className={`px-3 py-2 rounded-lg ${i===0 ? "bg-white/10" : "bg-white/[0.03]"}`}>{s}</div>
+          <div key={s} className={`px-3 py-2 rounded-lg transition-colors duration-700 ${i===0 ? "bg-white/10" : "bg-white/[0.03] hover:bg-white/[0.06]"}`}>{s}</div>
         ))}
       </div>
       <div className="col-span-9 space-y-3">
         <div className="grid grid-cols-4 gap-3">
-          {[
-            { l: "Views", v: "1.28M", d: "+12.8%" },
-            { l: "Followers", v: "84.2k", d: "+4.1%" },
-            { l: "Engagement", v: "7.4%", d: "+0.6" },
-            { l: "Trending", v: "92", d: "+8" },
-          ].map(s => (
-            <div key={s.l} className="glass rounded-lg p-3">
+          {stats.map(s => (
+            <div key={s.l} className="glass rounded-lg p-3 transition-all duration-700">
               <div className="text-[10px] text-muted-foreground">{s.l}</div>
-              <div className="mt-1 text-base font-semibold">{s.v}</div>
-              <div className="text-[10px] text-[var(--color-success)]">{s.d}</div>
+              <div className="mt-1 text-base font-semibold tabular-nums">{s.v}</div>
+              <div className="text-[10px] text-[var(--color-success)] tabular-nums">{s.d}</div>
             </div>
           ))}
         </div>
-        <div className="glass rounded-lg p-3 h-40 flex items-end gap-1.5">
-          {[20,35,28,42,55,48,62,70,58,75,82,88,72,90].map((h,i)=>(
-            <div key={i} className="flex-1 rounded-sm bg-[var(--gradient-primary)] opacity-80" style={{ height: `${h}%` }} />
+        <div className="glass rounded-lg p-3 h-40 flex items-end gap-1.5 relative overflow-hidden">
+          {bars.map((h, i) => (
+            <div
+              key={i}
+              className="flex-1 rounded-sm bg-[var(--gradient-primary)] opacity-80 transition-[height] duration-[1600ms] ease-out"
+              style={{ height: `${h}%` }}
+            />
           ))}
+          {/* moving cursor */}
+          <div
+            className="pointer-events-none absolute size-2 rounded-full bg-white/90 shadow-[0_0_0_4px_oklch(0.62_0.17_275/0.25)] transition-all duration-[1800ms] ease-in-out"
+            style={{
+              left: `${10 + ((bars[bars.length - 1] ?? 50) % 80)}%`,
+              bottom: `${20 + ((bars[bars.length - 1] ?? 50) % 50)}%`,
+            }}
+          />
         </div>
       </div>
     </div>
@@ -346,38 +412,129 @@ function DashboardPreview() {
 }
 
 function CompetitorPreview() {
+  useTick(2600);
   return (
     <div className="space-y-2">
-      {["@alishaboe", "@thomasfrank", "@minimalbeans", "@buildinpublic"].map((h, i) => (
-        <div key={h} className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.03] border border-border/60">
-          <div className="flex items-center gap-3">
-            <div className="size-7 rounded-full bg-[var(--gradient-primary)]" />
-            <div>
-              <div className="text-sm font-medium">{h}</div>
-              <div className="text-[10px] text-muted-foreground">avg {(420 - i * 80).toLocaleString()}k views</div>
+      {["@alishaboe", "@thomasfrank", "@minimalbeans", "@buildinpublic"].map((h, i) => {
+        const drift = (Math.sin(Date.now() / 1400 + i) * 2 + Math.random()).toFixed(1);
+        const pct = 12 + i * 5 + Number(drift);
+        return (
+          <div key={h} className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.03] border border-border/60 hover-lift transition-all">
+            <div className="flex items-center gap-3">
+              <div className="size-7 rounded-full bg-[var(--gradient-primary)] relative">
+                <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-[var(--color-success)] ring-2 ring-background animate-pulse-soft" />
+              </div>
+              <div>
+                <div className="text-sm font-medium">{h}</div>
+                <div className="text-[10px] text-muted-foreground tabular-nums">avg {(420 - i * 80).toLocaleString()}k views</div>
+              </div>
             </div>
+            <div className="text-xs text-primary tabular-nums">+{pct.toFixed(1)}%</div>
           </div>
-          <div className="text-xs text-primary">+{12 + i * 5}%</div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
 
 function TrendPreview() {
+  useTick(2000);
   return (
     <div className="space-y-2">
-      {["POV: a day in 60s", "AI tools you didn't know", "Audio: 'Espresso' slowed", "GRWM — founder edition"].map((t, i) => (
-        <div key={t} className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.03] border border-border/60">
-          <div className="text-sm">{t}</div>
-          <div className="flex items-center gap-2">
-            <div className="h-1 w-20 rounded-full bg-white/5 overflow-hidden">
-              <div className="h-full bg-[var(--gradient-primary)]" style={{ width: `${70 + i * 6}%` }} />
+      {["POV: a day in 60s", "AI tools you didn't know", "Audio: 'Espresso' slowed", "GRWM — founder edition"].map((t, i) => {
+        const base = 70 + i * 6;
+        const drift = Math.sin(Date.now() / 1200 + i * 1.3) * 8;
+        const width = Math.max(40, Math.min(99, base + drift));
+        const delta = 120 + i * 30 + Math.round(drift * 2);
+        return (
+          <div key={t} className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.03] border border-border/60 hover-lift">
+            <div className="text-sm flex items-center gap-2">
+              <Flame className="size-3 text-primary" />
+              {t}
             </div>
-            <div className="text-xs text-primary">+{120 + i * 30}%</div>
+            <div className="flex items-center gap-2">
+              <div className="h-1 w-20 rounded-full bg-white/5 overflow-hidden">
+                <div
+                  className="h-full bg-[var(--gradient-primary)] transition-[width] duration-[1400ms] ease-out"
+                  style={{ width: `${width}%` }}
+                />
+              </div>
+              <div className="text-xs text-primary tabular-nums">+{delta}%</div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ---------- Floating hero cards (decorative, no layout impact) ---------- */
+function FloatingHeroCards() {
+  useTick(3000);
+  const v = (1.24 + Math.sin(Date.now() / 1800) * 0.04).toFixed(2);
+  const eng = (7.4 + Math.sin(Date.now() / 1600 + 1) * 0.3).toFixed(1);
+  const score = Math.round(92 + Math.sin(Date.now() / 1500 + 2) * 4);
+
+  return (
+    <div aria-hidden className="hidden lg:block absolute inset-0 pointer-events-none">
+      {/* Left — trend card */}
+      <div className="absolute left-[4%] top-[20%] animate-float-1">
+        <div className="glass rounded-xl px-3.5 py-2.5 w-56 shadow-xl">
+          <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+            <TrendingUp className="size-3 text-primary" />
+            TREND DETECTED · TIKTOK
+          </div>
+          <div className="mt-1.5 text-xs font-medium">"POV: a day in 60s" — surging</div>
+          <div className="mt-2 flex items-center gap-2">
+            <div className="h-1 w-full rounded-full bg-white/5 overflow-hidden">
+              <div className="h-full bg-[var(--gradient-primary)] transition-all duration-1000" style={{ width: "78%" }} />
+            </div>
+            <span className="text-[10px] text-primary tabular-nums">+182%</span>
           </div>
         </div>
-      ))}
+      </div>
+
+      {/* Right — analytics card */}
+      <div className="absolute right-[5%] top-[14%] animate-float-2">
+        <div className="glass rounded-xl px-3.5 py-2.5 w-52 shadow-xl">
+          <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+            <Eye className="size-3 text-primary" />
+            VIEWS · LAST 24H
+          </div>
+          <div className="mt-1.5 text-lg font-semibold tabular-nums">{v}M</div>
+          <div className="text-[10px] text-[var(--color-success)] tabular-nums">+12.8% vs yesterday</div>
+        </div>
+      </div>
+
+      {/* Right lower — viral score */}
+      <div className="absolute right-[8%] top-[58%] animate-float-3">
+        <div className="glass rounded-xl px-3.5 py-2.5 w-48 shadow-xl">
+          <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+            <Sparkles className="size-3 text-primary" />
+            VIRAL SCORE
+          </div>
+          <div className="mt-1.5 flex items-end gap-1">
+            <span className="text-2xl font-semibold tabular-nums">{score}</span>
+            <span className="text-[10px] text-muted-foreground mb-1">/ 100</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Left lower — AI recommendation */}
+      <div className="absolute left-[6%] top-[60%] animate-float-2">
+        <div className="glass rounded-xl px-3.5 py-2.5 w-60 shadow-xl">
+          <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+            <Activity className="size-3 text-primary" />
+            AI PICK · POST TODAY
+          </div>
+          <div className="mt-1.5 text-xs font-medium leading-snug">
+            "3 underrated tools founders use daily"
+          </div>
+          <div className="mt-1 text-[10px] text-muted-foreground tabular-nums">
+            Engagement projection · {eng}%
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
