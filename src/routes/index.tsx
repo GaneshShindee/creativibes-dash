@@ -121,14 +121,24 @@ function Landing() {
       {/* Trusted by */}
       <section className="py-10 border-y border-border/40 bg-background/40">
         <div className="max-w-6xl mx-auto px-5">
-          <div className="text-center text-xs uppercase tracking-widest text-muted-foreground mb-6">
-            Trusted by 50,000+ creators and teams
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 opacity-70">
-            {["LATE NIGHT", "BUILDLOG", "MINIMAL", "NORTHBEAM", "PIXELHAUS", "RIVER", "AURORA"].map(b => (
-              <span key={b} className="text-sm font-semibold tracking-widest text-muted-foreground">{b}</span>
-            ))}
-          </div>
+          <Reveal>
+            <div className="text-center text-xs uppercase tracking-widest text-muted-foreground mb-6">
+              Trusted by <CountUp to={50000} suffix="+" className="text-foreground/90 font-medium" /> creators and teams
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 opacity-70">
+              {["LATE NIGHT", "BUILDLOG", "MINIMAL", "NORTHBEAM", "PIXELHAUS", "RIVER", "AURORA"].map((b, i) => (
+                <span
+                  key={b}
+                  className="text-sm font-semibold tracking-widest text-muted-foreground transition-all duration-500 hover:text-foreground hover:opacity-100"
+                  style={{ animation: `float-y ${8 + (i % 3)}s ease-in-out ${-i}s infinite` }}
+                >
+                  {b}
+                </span>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -144,14 +154,16 @@ function Landing() {
               { icon: ShieldCheck, title: "Competitor intelligence", desc: "Track competitors, surface content gaps, and copy what's working — instantly." },
               { icon: Star, title: "Smart calendar", desc: "Drag-and-drop scheduling with AI-suggested slots based on your audience." },
               { icon: Sparkles, title: "Pulse AI copilot", desc: "Ask anything: 'what should I post tomorrow?' and get answers grounded in your data." },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="glass rounded-2xl p-6">
-                <div className="size-9 rounded-lg bg-[var(--gradient-primary)] grid place-items-center">
-                  <Icon className="size-4 text-white" />
+            ].map(({ icon: Icon, title, desc }, i) => (
+              <Reveal key={title} delay={i * 70}>
+                <div className="glass rounded-2xl p-6 hover-lift h-full">
+                  <div className="size-9 rounded-lg bg-[var(--gradient-primary)] grid place-items-center sheen">
+                    <Icon className="size-4 text-white" />
+                  </div>
+                  <div className="mt-4 font-medium">{title}</div>
+                  <p className="mt-1.5 text-sm text-muted-foreground">{desc}</p>
                 </div>
-                <div className="mt-4 font-medium">{title}</div>
-                <p className="mt-1.5 text-sm text-muted-foreground">{desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -160,24 +172,32 @@ function Landing() {
       {/* Showcase */}
       <section id="showcase" className="py-20">
         <div className="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <Badge className="bg-primary/15 text-primary border-0">Competitor analysis</Badge>
-            <h3 className="mt-3 text-3xl font-semibold tracking-tight">See exactly what's working — for them.</h3>
-            <p className="mt-3 text-muted-foreground">Track unlimited handles across platforms. Pulse surfaces their winning posts, posting cadence, and the content gaps you can own.</p>
-          </div>
-          <div className="glass rounded-2xl p-5">
-            <CompetitorPreview />
-          </div>
+          <Reveal>
+            <div>
+              <Badge className="bg-primary/15 text-primary border-0">Competitor analysis</Badge>
+              <h3 className="mt-3 text-3xl font-semibold tracking-tight">See exactly what's working — for them.</h3>
+              <p className="mt-3 text-muted-foreground">Track unlimited handles across platforms. Pulse surfaces their winning posts, posting cadence, and the content gaps you can own.</p>
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="glass rounded-2xl p-5 hover-lift">
+              <CompetitorPreview />
+            </div>
+          </Reveal>
         </div>
         <div className="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 items-center mt-20">
-          <div className="order-2 md:order-1 glass rounded-2xl p-5">
-            <TrendPreview />
-          </div>
-          <div className="order-1 md:order-2">
-            <Badge className="bg-primary/15 text-primary border-0">Trend prediction</Badge>
-            <h3 className="mt-3 text-3xl font-semibold tracking-tight">Catch trends before the algorithm does.</h3>
-            <p className="mt-3 text-muted-foreground">Our virality model fuses cross-platform signals to surface trends 6-48 hours earlier than your feed.</p>
-          </div>
+          <Reveal delay={120}>
+            <div className="order-2 md:order-1 glass rounded-2xl p-5 hover-lift">
+              <TrendPreview />
+            </div>
+          </Reveal>
+          <Reveal>
+            <div className="order-1 md:order-2">
+              <Badge className="bg-primary/15 text-primary border-0">Trend prediction</Badge>
+              <h3 className="mt-3 text-3xl font-semibold tracking-tight">Catch trends before the algorithm does.</h3>
+              <p className="mt-3 text-muted-foreground">Our virality model fuses cross-platform signals to surface trends 6-48 hours earlier than your feed.</p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -186,12 +206,14 @@ function Landing() {
         <div className="max-w-6xl mx-auto px-5">
           <SectionTitle eyebrow="Testimonials" title="Loved by creators who actually ship." />
           <div className="grid md:grid-cols-3 gap-4 mt-10">
-            {testimonials.map((t) => (
-              <div key={t.name} className="glass rounded-2xl p-6">
-                <div className="flex gap-1 text-primary">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="size-3.5 fill-current" />)}</div>
-                <p className="mt-3 text-sm">{t.quote}</p>
-                <div className="mt-5 text-xs text-muted-foreground"><span className="text-foreground font-medium">{t.name}</span> · {t.role}</div>
-              </div>
+            {testimonials.map((t, i) => (
+              <Reveal key={t.name} delay={i * 80}>
+                <div className="glass rounded-2xl p-6 hover-lift h-full">
+                  <div className="flex gap-1 text-primary">{Array.from({ length: 5 }).map((_, j) => <Star key={j} className="size-3.5 fill-current" />)}</div>
+                  <p className="mt-3 text-sm">{t.quote}</p>
+                  <div className="mt-5 text-xs text-muted-foreground"><span className="text-foreground font-medium">{t.name}</span> · {t.role}</div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -202,26 +224,28 @@ function Landing() {
         <div className="max-w-6xl mx-auto px-5">
           <SectionTitle eyebrow="Pricing" title="Plans for every stage of your growth." />
           <div className="grid md:grid-cols-4 gap-4 mt-10">
-            {pricingPlans.map((p) => (
-              <div key={p.name} className={`rounded-2xl p-6 relative ${p.popular ? "glass-strong ring-1 ring-primary/40 ring-glow" : "glass"}`}>
-                {p.popular && <Badge className="absolute -top-2 right-4 bg-[var(--gradient-primary)] border-0">Popular</Badge>}
-                <div className="text-xs text-muted-foreground">{p.tag}</div>
-                <div className="mt-1 text-lg font-medium">{p.name}</div>
-                <div className="mt-3 flex items-baseline gap-1">
-                  <span className="text-3xl font-semibold">{p.price === null ? "Custom" : `$${p.price}`}</span>
-                  {typeof p.price === "number" && p.price > 0 && <span className="text-xs text-muted-foreground">/mo</span>}
+            {pricingPlans.map((p, idx) => (
+              <Reveal key={p.name} delay={idx * 80}>
+                <div className={`rounded-2xl p-6 relative hover-lift h-full ${p.popular ? "glass-strong ring-1 ring-primary/40 ring-glow" : "glass"}`}>
+                  {p.popular && <Badge className="absolute -top-2 right-4 bg-[var(--gradient-primary)] border-0">Popular</Badge>}
+                  <div className="text-xs text-muted-foreground">{p.tag}</div>
+                  <div className="mt-1 text-lg font-medium">{p.name}</div>
+                  <div className="mt-3 flex items-baseline gap-1">
+                    <span className="text-3xl font-semibold">{p.price === null ? "Custom" : `$${p.price}`}</span>
+                    {typeof p.price === "number" && p.price > 0 && <span className="text-xs text-muted-foreground">/mo</span>}
+                  </div>
+                  <ul className="mt-5 space-y-2 text-sm">
+                    {p.features.map(f => (
+                      <li key={f} className="flex gap-2 items-start text-muted-foreground">
+                        <Check className="size-4 text-primary shrink-0 mt-0.5" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button className={`mt-6 w-full btn-lift ${p.popular ? "bg-[var(--gradient-primary)]" : ""}`} variant={p.popular ? "default" : "secondary"}>
+                    {p.cta}
+                  </Button>
                 </div>
-                <ul className="mt-5 space-y-2 text-sm">
-                  {p.features.map(f => (
-                    <li key={f} className="flex gap-2 items-start text-muted-foreground">
-                      <Check className="size-4 text-primary shrink-0 mt-0.5" /> {f}
-                    </li>
-                  ))}
-                </ul>
-                <Button className={`mt-6 w-full ${p.popular ? "bg-[var(--gradient-primary)]" : ""}`} variant={p.popular ? "default" : "secondary"}>
-                  {p.cta}
-                </Button>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -245,15 +269,19 @@ function Landing() {
       {/* CTA */}
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-5">
-          <div className="rounded-3xl p-12 text-center glass-strong ring-glow relative overflow-hidden">
-            <div className="absolute inset-0 bg-[var(--gradient-aurora)] opacity-60 pointer-events-none" />
-            <h3 className="relative text-4xl font-semibold tracking-tight">Start growing this week.</h3>
-            <p className="relative mt-3 text-muted-foreground">Join 50,000+ creators using CreatorPulse to ship faster, smarter, and viral-er.</p>
-            <div className="relative mt-6 flex items-center justify-center gap-3">
-              <Link to="/signup"><Button size="lg" className="bg-[var(--gradient-primary)] hover:opacity-90">Start free</Button></Link>
-              <Link to="/dashboard"><Button size="lg" variant="ghost" className="border border-border/60">Open demo</Button></Link>
+          <Reveal>
+            <div className="rounded-3xl p-12 text-center glass-strong ring-glow relative overflow-hidden sheen">
+              <div className="absolute inset-0 bg-[var(--gradient-aurora)] opacity-60 pointer-events-none animate-ambient" />
+              <h3 className="relative text-4xl font-semibold tracking-tight">Start growing this week.</h3>
+              <p className="relative mt-3 text-muted-foreground">
+                Join <CountUp to={50000} suffix="+" className="text-foreground/90 font-medium" /> creators using CreatorPulse to ship faster, smarter, and viral-er.
+              </p>
+              <div className="relative mt-6 flex items-center justify-center gap-3">
+                <Link to="/signup"><Button size="lg" className="bg-[var(--gradient-primary)] hover:opacity-90 btn-lift">Start free</Button></Link>
+                <Link to="/dashboard"><Button size="lg" variant="ghost" className="border border-border/60 btn-lift">Open demo</Button></Link>
+              </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
