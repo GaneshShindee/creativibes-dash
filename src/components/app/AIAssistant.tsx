@@ -5,9 +5,27 @@ import { Input } from "@/components/ui/input";
 
 const suggestions = [
   "What should I post tomorrow?",
-  "Show viral trends in my niche.",
-  "Give me 10 reel ideas.",
+  "Show viral trends in Maharashtra.",
+  "Give me 10 reel ideas for fitness creators.",
+  "Find content gaps in my niche.",
 ];
+
+function generateReply(q: string): string {
+  const s = q.toLowerCase();
+  if (s.includes("tomorrow") || s.includes("post")) {
+    return "Top 3 picks for tomorrow (7:42 PM IST window):\n1) 'AI tools you didn't know' Reel — 94% virality, low competition\n2) 'Founder GRWM' Short — 91% fit, rising momentum\n3) 'Notion + Linear workflow' Carousel — 87% fit\n\nWant me to draft scripts for any of these?";
+  }
+  if (s.includes("maharashtra") || s.includes("india")) {
+    return "Viral trends in Maharashtra right now:\n• #MorningRoutine2026 — +186% this week\n• 'Mumbai cafe walkthrough' Reels — 92/100\n• 'Marathi founder GRWM' — emerging, 78/100\n• 'Local food in 60s' — +142% engagement\n\nPosting window: 7–9 PM IST.";
+  }
+  if (s.includes("fitness") || s.includes("reel ideas") || s.includes("10")) {
+    return "10 reel ideas for fitness creators:\n1) 5-minute morning mobility (POV)\n2) 'What I eat in a day' — minimalist cut\n3) Beginner vs Pro form comparison\n4) Silent gym session w/ text overlays\n5) 30-day challenge weekly update\n6) Common form mistakes — fix in 60s\n7) Pre-workout meal in 30s\n8) Rest day routine that actually helps\n9) Cardio vs lifting — what changed for me\n10) Train with me — full week recap\n\nWant scripts for the top 3?";
+  }
+  if (s.includes("gap") || s.includes("competitor")) {
+    return "Content gaps I found in your niche:\n• Long-form 'build in public' (only 2 competitors covering it)\n• Indian founder GRWM (almost no creators in your niche)\n• Tool comparison carousels — under-saturated, high search demand\n• Audio-first short-form (your competitors ignore this)\n\nEstimated opportunity score: 87/100.";
+  }
+  return "Based on your niche (Tech + Productivity), here are 3 ideas:\n1) 'AI tools you didn't know' — 92% virality\n2) 'Silent vlog: shipping day' — 88% match\n3) 'Founder GRWM' — 86% fit\n\nWant me to draft scripts?";
+}
 
 export function AIAssistant() {
   const [open, setOpen] = useState(false);
@@ -21,14 +39,7 @@ export function AIAssistant() {
     setMessages((m) => [...m, { role: "user", text }]);
     setInput("");
     setTimeout(() => {
-      setMessages((m) => [
-        ...m,
-        {
-          role: "ai",
-          text:
-            "Based on your niche (Tech + Productivity), here are 3 ideas: \n1) 'AI tools you didn't know' — 92% virality\n2) 'Silent vlog: shipping day' — 88% match\n3) 'Founder GRWM' — 86% fit. Want me to draft scripts?",
-        },
-      ]);
+      setMessages((m) => [...m, { role: "ai", text: generateReply(text) }]);
     }, 700);
   };
 
