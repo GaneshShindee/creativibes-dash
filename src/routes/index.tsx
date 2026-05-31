@@ -22,24 +22,37 @@ export const Route = createFileRoute("/")({
 });
 
 function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   return (
-    <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border/40">
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "backdrop-blur-xl bg-background/70 border-b border-border/60"
+          : "backdrop-blur-md bg-background/30 border-b border-transparent"
+      }`}
+    >
       <div className="max-w-7xl mx-auto h-14 px-5 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="size-7 rounded-md bg-[var(--gradient-primary)] grid place-items-center">
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="size-7 rounded-md bg-[var(--gradient-primary)] grid place-items-center transition-transform duration-500 group-hover:rotate-3">
             <Zap className="size-4 text-white" />
           </div>
           <span className="text-sm font-semibold">CreatorPulse</span>
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          <a href="#features" className="hover:text-foreground">Features</a>
-          <a href="#showcase" className="hover:text-foreground">Product</a>
-          <a href="#pricing" className="hover:text-foreground">Pricing</a>
-          <a href="#faq" className="hover:text-foreground">FAQ</a>
+          <a href="#features" className="hover:text-foreground transition-colors">Features</a>
+          <a href="#showcase" className="hover:text-foreground transition-colors">Product</a>
+          <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
+          <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
         </nav>
         <div className="flex items-center gap-2">
-          <Link to="/login"><Button variant="ghost" size="sm">Sign in</Button></Link>
-          <Link to="/signup"><Button size="sm" className="bg-[var(--gradient-primary)] hover:opacity-90">Get started</Button></Link>
+          <Link to="/login"><Button variant="ghost" size="sm" className="btn-lift">Sign in</Button></Link>
+          <Link to="/signup"><Button size="sm" className="bg-[var(--gradient-primary)] hover:opacity-90 btn-lift">Get started</Button></Link>
         </div>
       </div>
     </header>
