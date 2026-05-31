@@ -24,10 +24,13 @@ const tooltipStyle = {
 };
 
 function Dashboard() {
+  const metrics = useLiveMetrics();
+  const trends = useLiveTrends();
   const topTrends = trends.slice(0, 4);
   return (
     <div className="space-y-6">
       <PageHeader
+        size="lg"
         title="Good morning, Aisha 👋"
         description="Here's what's happening in your niche today. 12 new viral opportunities."
         actions={
@@ -38,11 +41,13 @@ function Dashboard() {
         }
       />
 
+      <DailyBriefing />
+
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        <StatCard label="Total views" value="1.28M" delta={12.8} icon={Eye} />
-        <StatCard label="Followers" value="84.2k" delta={4.1} icon={Users} />
-        <StatCard label="Engagement" value="7.4" suffix="%" delta={0.6} icon={Activity} />
-        <StatCard label="Growth" value="+12.8" suffix="%" delta={3.4} icon={TrendingUp} />
+        <StatCard label="Total views" value={`${(metrics.views / 1_000_000).toFixed(2)}M`} delta={12.8} icon={Eye} />
+        <StatCard label="Followers" value={`${(metrics.followers / 1000).toFixed(1)}k`} delta={4.1} icon={Users} />
+        <StatCard label="Engagement" value={metrics.engagement.toFixed(2)} suffix="%" delta={0.6} icon={Activity} />
+        <StatCard label="Growth" value={`+${metrics.growth.toFixed(1)}`} suffix="%" delta={3.4} icon={TrendingUp} />
         <StatCard label="Trending score" value={metrics.trendingScore} delta={8} icon={Sparkles} />
       </div>
 
@@ -180,18 +185,7 @@ function Dashboard() {
               ))}
             </div>
           </div>
-          <div className="glass rounded-2xl p-5">
-            <div className="text-sm font-medium mb-3">Activity</div>
-            <ul className="space-y-2.5">
-              {notifications.map(n => (
-                <li key={n.id} className="text-xs text-muted-foreground flex items-start gap-2">
-                  <span className="mt-1 size-1.5 rounded-full bg-primary shrink-0" />
-                  <span className="flex-1"><span className="text-foreground">{n.text}</span></span>
-                  <span className="text-[10px]">{n.time}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <LiveActivityFeed />
         </div>
 
         {/* Quick actions */}
