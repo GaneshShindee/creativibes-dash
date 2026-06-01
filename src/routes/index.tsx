@@ -476,10 +476,10 @@ function FloatingHeroCards() {
   const score = Math.round(92 + Math.sin(Date.now() / 1500 + 2) * 4);
 
   return (
-    <div aria-hidden className="hidden lg:block absolute inset-0 pointer-events-none">
-      {/* Left — trend card */}
-      <div className="absolute left-[4%] top-[20%] animate-float-1">
-        <div className="glass rounded-xl px-3.5 py-2.5 w-56 shadow-xl">
+    <div aria-hidden className="hidden xl:block absolute inset-0 pointer-events-none">
+      {/* Left — trend card (lowered, tucked to edge near CTA row) */}
+      <div className="absolute left-[2%] top-[48%] animate-float-1">
+        <div className="glass rounded-xl px-3.5 py-2.5 w-52 shadow-xl">
           <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
             <TrendingUp className="size-3 text-primary" />
             TREND DETECTED · TIKTOK
@@ -494,9 +494,9 @@ function FloatingHeroCards() {
         </div>
       </div>
 
-      {/* Right — analytics card */}
-      <div className="absolute right-[5%] top-[14%] animate-float-2">
-        <div className="glass rounded-xl px-3.5 py-2.5 w-52 shadow-xl">
+      {/* Right — analytics card (lowered to align with subhead) */}
+      <div className="absolute right-[2%] top-[44%] animate-float-2">
+        <div className="glass rounded-xl px-3.5 py-2.5 w-48 shadow-xl">
           <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
             <Eye className="size-3 text-primary" />
             VIEWS · LAST 24H
@@ -506,9 +506,9 @@ function FloatingHeroCards() {
         </div>
       </div>
 
-      {/* Right lower — viral score */}
-      <div className="absolute right-[8%] top-[58%] animate-float-3">
-        <div className="glass rounded-xl px-3.5 py-2.5 w-48 shadow-xl">
+      {/* Top-left — viral score (small, well above heading) */}
+      <div className="absolute left-[3%] top-[18%] animate-float-3">
+        <div className="glass rounded-xl px-3.5 py-2.5 w-44 shadow-xl">
           <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
             <Sparkles className="size-3 text-primary" />
             VIRAL SCORE
@@ -520,9 +520,9 @@ function FloatingHeroCards() {
         </div>
       </div>
 
-      {/* Left lower — AI recommendation */}
-      <div className="absolute left-[6%] top-[60%] animate-float-2">
-        <div className="glass rounded-xl px-3.5 py-2.5 w-60 shadow-xl">
+      {/* Top-right — AI pick (well above heading, narrow) */}
+      <div className="absolute right-[3%] top-[16%] animate-float-2">
+        <div className="glass rounded-xl px-3.5 py-2.5 w-52 shadow-xl">
           <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
             <Activity className="size-3 text-primary" />
             AI PICK · POST TODAY
