@@ -412,11 +412,21 @@ function DashboardPreview() {
 }
 
 function CompetitorPreview() {
-  useTick(2600);
+  const [mounted, setMounted] = useState(false);
+  const [tick, setTick] = useState(0);
+  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    if (!mounted) return;
+    const id = setInterval(() => setTick((n) => n + 1), 2600);
+    return () => clearInterval(id);
+  }, [mounted]);
+
   return (
     <div className="space-y-2">
       {["@alishaboe", "@thomasfrank", "@minimalbeans", "@buildinpublic"].map((h, i) => {
-        const drift = (Math.sin(Date.now() / 1400 + i) * 2 + Math.random()).toFixed(1);
+        const drift = mounted
+          ? (Math.sin(Date.now() / 1400 + i) * 2 + Math.random()).toFixed(1)
+          : "0.0";
         const pct = 12 + i * 5 + Number(drift);
         return (
           <div key={h} className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/[0.03] border border-border/60 hover-lift transition-all">
@@ -438,12 +448,20 @@ function CompetitorPreview() {
 }
 
 function TrendPreview() {
-  useTick(2000);
+  const [mounted, setMounted] = useState(false);
+  const [tick, setTick] = useState(0);
+  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    if (!mounted) return;
+    const id = setInterval(() => setTick((n) => n + 1), 2000);
+    return () => clearInterval(id);
+  }, [mounted]);
+
   return (
     <div className="space-y-2">
       {["POV: a day in 60s", "AI tools you didn't know", "Audio: 'Espresso' slowed", "GRWM — founder edition"].map((t, i) => {
         const base = 70 + i * 6;
-        const drift = Math.sin(Date.now() / 1200 + i * 1.3) * 8;
+        const drift = mounted ? Math.sin(Date.now() / 1200 + i * 1.3) * 8 : 0;
         const width = Math.max(40, Math.min(99, base + drift));
         const delta = 120 + i * 30 + Math.round(drift * 2);
         return (
@@ -470,10 +488,18 @@ function TrendPreview() {
 
 /* ---------- Floating hero cards (decorative, no layout impact) ---------- */
 function FloatingHeroCards() {
-  useTick(3000);
-  const v = (1.24 + Math.sin(Date.now() / 1800) * 0.04).toFixed(2);
-  const eng = (7.4 + Math.sin(Date.now() / 1600 + 1) * 0.3).toFixed(1);
-  const score = Math.round(92 + Math.sin(Date.now() / 1500 + 2) * 4);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const v = mounted ? (1.24 + Math.sin(Date.now() / 1800) * 0.04).toFixed(2) : "1.24";
+  const eng = mounted ? (7.4 + Math.sin(Date.now() / 1600 + 1) * 0.3).toFixed(1) : "7.4";
+  const score = mounted ? Math.round(92 + Math.sin(Date.now() / 1500 + 2) * 4) : 92;
+
+  useEffect(() => {
+    if (!mounted) return;
+    const id = setInterval(() => setMounted((m) => !m), 3000);
+    return () => clearInterval(id);
+  }, [mounted]);
 
   return (
     <div aria-hidden className="hidden xl:block absolute inset-0 pointer-events-none">
