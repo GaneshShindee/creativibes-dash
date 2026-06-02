@@ -28,7 +28,7 @@ export function AppShell() {
     <div className="min-h-screen aurora-bg text-foreground">
       <div className="flex">
         {/* Sidebar — full on desktop, narrow icon strip on mobile */}
-        <aside className="flex w-14 lg:w-64 shrink-0 flex-col border-r border-border/60 bg-sidebar/60 backdrop-blur-xl min-h-screen sticky top-0 z-40">
+        <aside className="flex w-14 lg:w-64 shrink-0 flex-col border-r border-border/60 bg-sidebar/60 backdrop-blur-xl h-screen sticky top-0 self-start z-40 overflow-y-auto">
           <div className="px-3 lg:px-5 py-4 lg:py-5 flex items-center justify-center lg:justify-start gap-0 lg:gap-2">
             <div className="size-8 rounded-lg bg-[var(--gradient-primary)] grid place-items-center">
               <Zap className="size-4 text-white" />
